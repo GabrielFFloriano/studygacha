@@ -1,4 +1,4 @@
-package com.gacha.studygacha.dtos;
+package com.gacha.studygacha.dtos.responses;
 
 import java.time.Instant;
 
