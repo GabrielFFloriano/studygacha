@@ -5,13 +5,13 @@ import jakarta.validation.constraints.NotNull;
 import java.time.Instant;
 
 public record CreateStudySessionRequest(
-        @NotNull
+        @NotNull(message = "user Id is required")
         Long userId,
 
-        @NotNull
+        @NotNull(message = "session start timestamp is required")
         Instant startedAt,
 
-        @NotNull
+        @NotNull(message = "session end timestamp is required")
         Instant endedAt
 ) {
 }

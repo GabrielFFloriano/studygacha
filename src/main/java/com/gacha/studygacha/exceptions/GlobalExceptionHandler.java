@@ -76,4 +76,18 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.BAD_REQUEST)
                 .body(error);
     }
+
+    @ExceptionHandler(value = {OverlappingStudySessionException.class})
+    public ResponseEntity<ErrorResponse> handleOverlappingStudySession(OverlappingStudySessionException e) {
+        ErrorResponse error = new ErrorResponse(
+                HttpStatus.CONFLICT.value(),
+                "OVERLAPPING_STUDY_SESSION",
+                e.getMessage(),
+                Instant.now()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(error);
+    }
 }

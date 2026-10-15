@@ -3,6 +3,7 @@ package com.gacha.studygacha.services;
 import com.gacha.studygacha.dtos.requests.CreateStudySessionRequest;
 import com.gacha.studygacha.dtos.responses.StudySessionResponse;
 import com.gacha.studygacha.exceptions.InvalidStudySessionException;
+import com.gacha.studygacha.exceptions.OverlappingStudySessionException;
 import com.gacha.studygacha.exceptions.UserNotFoundException;
 import com.gacha.studygacha.models.StudySession;
 import com.gacha.studygacha.models.User;
@@ -32,6 +33,10 @@ public class StudySessionService {
 
         if (minutes <= 0 || minutes > 600) {
             throw new InvalidStudySessionException("Study session duration must be between 1 and 600 minutes");
+        }
+
+        if (studySessionRepository.existsOverlappingSession(request.userId(), request.startedAt(), request.endedAt())) {
+            throw new OverlappingStudySessionException("Study session overlaps an existing session");
         }
 
         int totalMinutes = user.getStudyMinutesBalance() + Math.toIntExact(minutes);
