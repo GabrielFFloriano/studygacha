@@ -13,7 +13,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.Instant;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -56,21 +57,13 @@ class UserServiceTest {
     @Test
     void shouldThrowExceptionWhenUsernameAlreadyExists() {
 
-        CreateUserRequest request =
-                new CreateUserRequest("gabriel");
+        CreateUserRequest request = new CreateUserRequest("gabriel");
 
-        when(userRepository.existsByUsername("gabriel"))
-                .thenReturn(true);
+        when(userRepository.existsByUsername("gabriel")).thenReturn(true);
 
-        assertThrows(
-                UsernameAlreadyExistsException.class,
-                () -> userService.create(request)
-        );
+        assertThrows(UsernameAlreadyExistsException.class, () -> userService.create(request));
 
-        verify(userRepository)
-                .existsByUsername("gabriel");
-
-        verify(userRepository, never())
-                .save(any(User.class));
+        verify(userRepository).existsByUsername("gabriel");
+        verify(userRepository, never()).save(any(User.class));
     }
 }

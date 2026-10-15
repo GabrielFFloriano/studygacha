@@ -13,9 +13,11 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.Instant;
 
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(UserController.class)
 class UserControllerTest {
@@ -36,8 +38,7 @@ class UserControllerTest {
                 Instant.now()
         );
 
-        when(userService.create(any(CreateUserRequest.class)))
-                .thenReturn(response);
+        when(userService.create(any(CreateUserRequest.class))).thenReturn(response);
 
         mockMvc.perform(post("/users")
                 .contentType(MediaType.APPLICATION_JSON)
